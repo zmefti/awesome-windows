@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Awesome Windows — Curated Tools & Apps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f12;
+    --surface: #13161b;
+    --border: #1e2229;
+    --border-bright: #2a2f38;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --accent: #4f8eff;
+    --accent-dim: rgba(79,142,255,0.12);
+    --star: #f5c842;
+    --oss: #3ecf8e;
+    --paid: #ff6b6b;
+    --card-hover: #181c22;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,15,18,0.92);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo-dot { color: var(--accent); }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    font-weight: 500;
+  }
+  .badge-star { background: rgba(245,200,66,0.15); color: var(--star); }
+  .badge-oss  { background: rgba(62,207,142,0.12); color: var(--oss); }
+  .badge-paid { background: rgba(255,107,107,0.12); color: var(--paid); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 4rem 2rem 2.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    max-width: 520px;
+    margin-bottom: 1.6rem;
+  }
+
+  .legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    padding: 0 2rem 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus { border-color: var(--accent); }
+
+  /* ── NAV PILLS ── */
+  .cat-nav {
+    padding: 0 2rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .cat-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    background: none;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .cat-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  /* ── CATEGORY ── */
+  .category {
+    margin-bottom: 2.8rem;
+  }
+
+  .cat-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cat-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .cat-count {
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  /* ── APP GRID ── */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .app-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, background 0.15s, transform 0.12s;
+    position: relative;
+  }
+  .app-card:hover {
+    border-color: var(--border-bright);
+    background: var(--card-hover);
+    transform: translateY(-1px);
+  }
+
+  .app-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    object-fit: contain;
+    background: var(--bg);
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+
+  .app-logo-fallback {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+
+  .app-info { flex: 1; min-width: 0; }
+
+  .app-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .app-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .app-desc {
+    font-size: 0.68rem;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-top: 0.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tag { font-size: 0.65rem; line-height: 1; }
+  .tag-star { color: var(--star); }
+  .tag-oss  { color: var(--oss); }
+  .tag-paid { color: var(--paid); }
+
+  /* no-result */
+  .no-result {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    display: none;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    header { padding: 0 1rem; }
+    .hero, .search-wrap, .cat-nav, main { padding-left: 1rem; padding-right: 1rem; }
+    .app-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">Awesome<span class="logo-dot">.</span>Windows</a>
+  <div class="header-meta">
+    <span class="badge badge-star">⭐ Favorite</span>
+    <span class="badge badge-oss">🟢 Open Source</span>
+    <span class="badge badge-paid">💰 Paid</span>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Awesome <span>Windows</span><br>Tools & Apps</h1>
+  <p>A curated list of the best software for Windows 10/11. Click any card to visit the app's website.</p>
+  <div class="legend">
+    <span class="badge badge-star">⭐ Personal Favorite</span>
+    <span class="badge badge-oss">🟢 Open Source</span>
+    <span class="badge badge-paid">💰 Paid</span>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <input class="search-input" type="text" placeholder="Search apps..." id="search" autocomplete="off">
+</div>
+
+<div class="cat-nav" id="catNav"></div>
+
+<main id="main"></main>
+<div class="no-result" id="noResult">No apps found matching your search.</div>
+
+<script>
+const data = [
+  {
+    id: "api-development",
+    name: "API Development",
+    apps: [
+      { name: "Bruno", desc: "Tests APIs with Git version control integration.", url: "https://www.usebruno.com/", logo: "https://www.usebruno.com/images/bruno-app-icon.png", star: true, oss: true },
+      { name: "Hoppscotch", desc: "Tests APIs with real-time collaboration features.", url: "https://hoppscotch.com/", logo: "https://hoppscotch.com/favicon.ico", oss: true },
+      { name: "HTTP Toolkit", desc: "Intercepts and modifies HTTP traffic.", url: "https://httptoolkit.tech", logo: "https://httptoolkit.tech/favicon.ico", oss: true },
+      { name: "Insomnia", desc: "Tests APIs with GraphQL support.", url: "https://insomnia.rest", logo: "https://insomnia.rest/icons/icon-96x96.png", oss: true },
+      { name: "Postman", desc: "Tests APIs with automated test scripts and monitoring.", url: "https://www.getpostman.com/postman", logo: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" },
+      { name: "Yaak", desc: "Modern lightweight Tauri-based API testing application.", url: "https://yaak.app", logo: "https://yaak.app/icon.png", oss: true },
+    ]
+  },
+  {
+    id: "application-launchers",
+    name: "Application Launchers",
+    apps: [
+      { name: "Flow Launcher", desc: "Searches files and launches apps with plugin extensibility.", url: "https://flowlauncher.com/", logo: "https://flowlauncher.com/imgs/flow.png", star: true, oss: true },
+      { name: "Keypirinha", desc: "Launches apps through fuzzy search and keyboard shortcuts.", url: "https://keypirinha.com/", logo: "https://keypirinha.com/favicon.ico" },
+      { name: "kunkun", desc: "Raycast/Alfred-like launcher with sandboxed extensions.", url: "https://github.com/kunkunsh/kunkun", logo: "https://avatars.githubusercontent.com/u/156165975", oss: true },
+      { name: "Listary", desc: "Searches files with advanced filters and indexing.", url: "https://www.listary.com/", logo: "https://www.listary.com/img/logo.png" },
+      { name: "Raycast", desc: "Highly extensible keyboard-driven productivity launcher.", url: "https://www.raycast.com/", logo: "https://www.raycast.com/favicon-production.png" },
+      { name: "ueli", desc: "Powerful keystroke launcher.", url: "https://ueli.app/", logo: "https://ueli.app/favicon.ico", oss: true },
+      { name: "Wox", desc: "Launches apps with web search integration.", url: "http://wox-launcher.github.io/Wox/", logo: "https://avatars.githubusercontent.com/u/15171512", oss: true },
+    ]
+  },
+  {
+    id: "audio",
+    name: "Audio",
+    apps: [
+      { name: "Ableton Live", desc: "Fluid software for music creation and performance.", url: "https://www.ableton.com/en/live/", logo: "https://www.ableton.com/favicon.ico", paid: true },
+      { name: "Audacity", desc: "Records and edits audio with broad format support.", url: "https://audacityteam.org/", logo: "https://www.audacityteam.org/favicon.ico", oss: true },
+      { name: "Cider", desc: "Streams Apple Music with a beautiful interface.", url: "https://cider.sh/", logo: "https://cider.sh/assets/cider.png", paid: true },
+      { name: "Dopamine", desc: "Plays and organizes music locally.", url: "https://digimezzo.github.io/site/", logo: "https://avatars.githubusercontent.com/u/4643470", oss: true },
+      { name: "FL Studio", desc: "Complete DAW for composing, arranging, recording and mastering.", url: "https://www.image-line.com/", logo: "https://www.image-line.com/wp-content/uploads/2019/03/favicon.ico", paid: true },
+      { name: "Foobar2000", desc: "Plays audio with extensive customization options.", url: "https://www.foobar2000.org/", logo: "https://www.foobar2000.org/favicon.ico" },
+      { name: "Mixxx", desc: "Mixes music for DJs with professional features.", url: "https://mixxx.org/", logo: "https://mixxx.org/favicon.ico", oss: true },
+      { name: "Mp3tag", desc: "Edits music metadata and tags batch-style.", url: "https://www.mp3tag.de/en/", logo: "https://www.mp3tag.de/favicon.ico" },
+      { name: "MusicBrainz Picard", desc: "Identifies and tags music files using AcoustID.", url: "https://picard.musicbrainz.org/", logo: "https://picard.musicbrainz.org/static/img/picard-icon-large.svg", oss: true },
+      { name: "musikcube", desc: "Plays music through terminal interface.", url: "https://musikcube.com/", logo: "https://musikcube.com/favicon.ico", oss: true },
+    ]
+  },
+  {
+    id: "backup",
+    name: "Backup",
+    apps: [
+      { name: "Duplicati", desc: "Stores encrypted backups online with scheduling.", url: "https://www.duplicati.com/", logo: "https://www.duplicati.com/favicon.ico", oss: true },
+      { name: "Kopia", desc: "Creates incremental backups with client-side encryption.", url: "https://kopia.io/", logo: "https://kopia.io/favicon.ico", oss: true },
+      { name: "Restic", desc: "Backs up data to various storage backends securely.", url: "https://restic.net/", logo: "https://restic.net/favicon.ico", oss: true },
+    ]
+  },
+  {
+    id: "browsers",
+    name: "Browsers",
+    apps: [
+      { name: "Brave", desc: "Privacy-focused browser with built-in ad blocker.", url: "https://brave.com", logo: "https://brave.com/static-assets/images/brave-favicon.png", oss: true },
+      { name: "Firefox", desc: "Browser with strong privacy and customization ecosystem.", url: "https://firefox.com", logo: "https://www.mozilla.org/media/img/favicons/firefox/browser/favicon-196x196.59e3822720be.png", oss: true },
+      { name: "Helium", desc: "Ungoogled Chromium with split-view and built-in ad-blocker.", url: "https://helium.computer/", logo: "https://helium.computer/favicon.ico", oss: true },
+      { name: "Librewolf", desc: "Custom Firefox focused on privacy, security and freedom.", url: "https://librewolf.net", logo: "https://librewolf.net/icon.svg", oss: true },
+      { name: "Tor Browser", desc: "Privacy browser routing traffic over the Tor network.", url: "https://www.torproject.org/", logo: "https://www.torproject.org/static/images/favicon/favicon-32x32.png", oss: true },
+      { name: "Ungoogled Chromium", desc: "Removes Google integration and tracking from Chromium.", url: "https://github.com/ungoogled-software/ungoogled-chromium", logo: "https://www.google.com/chrome/static/images/chrome-logo-m100.svg", oss: true },
+      { name: "Zen Browser", desc: "Firefox-based with community mods and beautiful UI.", url: "https://zen-browser.app/", logo: "https://zen-browser.app/favicon.ico", star: true, oss: true },
+    ]
+  },
+  {
+    id: "cloud-storage",
+    name: "Cloud Storage",
+    apps: [
+      { name: "Dropbox", desc: "Syncs files across devices with version history.", url: "https://www.dropbox.com/", logo: "https://www.dropbox.com/static/images/logo.svg" },
+      { name: "Google Drive", desc: "Real-time collaboration on Docs, Sheets and Slides.", url: "https://www.google.com/drive/", logo: "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" },
+      { name: "Mega", desc: "Encrypts files before they leave your device.", url: "https://mega.nz/", logo: "https://mega.nz/favicon.ico" },
+      { name: "Nextcloud", desc: "Host your own cloud storage and communication server.", url: "https://nextcloud.com/", logo: "https://nextcloud.com/wp-content/uploads/2022/11/nextcloud-logo-icon.svg", oss: true },
+      { name: "OneDrive", desc: "Integrates with Microsoft Office for document collaboration.", url: "https://onedrive.live.com/", logo: "https://onedrive.live.com/favicon.ico" },
+      { name: "Proton Drive", desc: "End-to-end encrypted cloud storage from Proton.", url: "https://proton.me/drive", logo: "https://proton.me/favicons/favicon-32x32.png", star: true },
+      { name: "pCloud", desc: "Offers one-time payment for lifetime storage access.", url: "https://www.pcloud.com", logo: "https://www.pcloud.com/favicon.ico" },
+    ]
+  },
+  {
+    id: "command-line-tools",
+    name: "Command Line Tools",
+    apps: [
+      { name: "btop4win", desc: "Windows port of the famous btop resource monitor.", url: "https://github.com/aristocratos/btop4win", logo: "https://avatars.githubusercontent.com/u/59659483", oss: true },
+      { name: "Chocolatey", desc: "The package manager for Windows.", url: "https://chocolatey.org/", logo: "https://chocolatey.org/favicon.ico" },
+      { name: "gallery-dl", desc: "Downloads image galleries from many hosting sites.", url: "https://github.com/mikf/gallery-dl", logo: "https://avatars.githubusercontent.com/u/4733631", oss: true },
+      { name: "gsudo", desc: "Sudo equivalent for Windows, run commands elevated.", url: "https://gerardog.github.io/gsudo/", logo: "https://avatars.githubusercontent.com/u/4168418", oss: true },
+      { name: "Scoop", desc: "Command-line installer for Windows.", url: "https://github.com/lukesampson/scoop", logo: "https://scoop.sh/img/scoop-logo.png", oss: true },
+      { name: "winget", desc: "Official Windows package manager from Microsoft.", url: "https://learn.microsoft.com/en-us/windows/package-manager/winget/", logo: "https://avatars.githubusercontent.com/u/6154722", oss: true },
+      { name: "yt-dlp", desc: "Feature-rich command-line audio/video downloader.", url: "https://github.com/yt-dlp/yt-dlp", logo: "https://avatars.githubusercontent.com/u/79589310", oss: true },
+    ]
+  },
+  {
+    id: "communication",
+    name: "Communication",
+    apps: [
+      { name: "Beeper", desc: "Combines WhatsApp, Slack, Telegram, Signal, X and more.", url: "https://beeper.com", logo: "https://www.beeper.com/favicon.ico" },
+      { name: "Discord", desc: "Voice and text chat platform for communities.", url: "https://discordapp.com", logo: "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" },
+      { name: "Element", desc: "Feature-rich client for the Matrix protocol.", url: "https://element.io/", logo: "https://element.io/images/favicon.png", oss: true },
+      { name: "Equicord", desc: "Vencord fork with additional plugins and features.", url: "https://github.com/Equicord/Equicord", logo: "https://avatars.githubusercontent.com/u/147698907", star: true, oss: true },
+      { name: "LegCord", desc: "Discord client with Vencord and shelter integration.", url: "https://legcord.app/", logo: "https://avatars.githubusercontent.com/u/116278138", oss: true },
+      { name: "Matrix", desc: "Network for secure, decentralized communication.", url: "https://matrix.org/", logo: "https://matrix.org/favicon.ico", oss: true },
+      { name: "Telegram", desc: "Messaging platform focused on speed and security.", url: "https://desktop.telegram.org/", logo: "https://telegram.org/img/t_logo.png", oss: true },
+      { name: "Threema", desc: "Swiss messaging platform with open source code.", url: "https://threema.ch", logo: "https://threema.ch/favicon.ico", star: true, oss: true, paid: true },
+      { name: "Unigram", desc: "Telegram client optimized for Windows 10/11.", url: "https://github.com/UnigramDev/Unigram", logo: "https://avatars.githubusercontent.com/u/26688516", oss: true },
+      { name: "Vencord", desc: "The cutest Discord client mod with lots of plugins.", url: "https://vencord.dev", logo: "https://vencord.dev/assets/favicon.png", oss: true },
+    ]
+  },
+  {
+    id: "compression",
+    name: "Compression",
+    apps: [
+      { name: "7-Zip", desc: "File archiver with very high compression ratio.", url: "https://www.7-zip.org/", logo: "https://www.7-zip.org/7ziplogo.png", oss: true },
+      { name: "Bandizip", desc: "Archive manager with multiple format support.", url: "https://www.bandisoft.com/bandizip/", logo: "https://www.bandisoft.com/bandizip/img/bandizip.png" },
+      { name: "NanaZip", desc: "Windows-optimized 7-Zip variant with modern UI.", url: "https://apps.microsoft.com/detail/9n8g7tscl18r", logo: "https://avatars.githubusercontent.com/u/72674921", star: true, oss: true },
+      { name: "PeaZip", desc: "Archive manager with 200+ compression format support.", url: "https://peazip.github.io/", logo: "https://peazip.github.io/peazip.png", oss: true },
+      { name: "WinRAR", desc: "Compresses, backs up and splits files into archives.", url: "https://www.rarlab.com/", logo: "https://www.rarlab.com/favicon.ico", paid: true },
+    ]
+  },
+  {
+    id: "customization",
+    name: "Customization",
+    apps: [
+      { name: "EarTrumpet", desc: "Controls volume per application from the system tray.", url: "https://eartrumpet.app/", logo: "https://eartrumpet.app/favicon.ico", oss: true },
+      { name: "OpenShell", desc: "Restores traditional Start Menu interface.", url: "https://github.com/Open-Shell/Open-Shell-Menu", logo: "https://avatars.githubusercontent.com/u/53685581", oss: true },
+      { name: "Rainmeter", desc: "Displays customizable skins and desktop widgets.", url: "https://www.rainmeter.net/", logo: "https://www.rainmeter.net/favicon.ico", oss: true },
+      { name: "TranslucentTB", desc: "Makes the Windows taskbar transparent.", url: "https://github.com/TranslucentTB/TranslucentTB", logo: "https://avatars.githubusercontent.com/u/28844470", oss: true },
+      { name: "Wallpaper Engine", desc: "Animated and interactive wallpapers for your desktop.", url: "https://www.wallpaperengine.io/", logo: "https://www.wallpaperengine.io/favicon.ico", paid: true },
+      { name: "WindHawk", desc: "A toolkit of useful Windows software tweaks.", url: "https://windhawk.net/", logo: "https://windhawk.net/favicon.ico", oss: true },
+      { name: "YASB", desc: "Creates highly customizable Windows status bars.", url: "https://github.com/amnweb/yasb", logo: "https://avatars.githubusercontent.com/u/26824453", oss: true },
+    ]
+  },
+  {
+    id: "data-recovery",
+    name: "Data Recovery",
+    apps: [
+      { name: "IsoBuster", desc: "Multi-format data recovery supporting various storage media.", url: "https://www.isobuster.com/", logo: "https://www.isobuster.com/images/IsoBuster_Logo.png" },
+      { name: "Ontrack EasyRecovery", desc: "Advanced recovery tool with comprehensive filtering.", url: "https://www.ontrack.com/en-au/software/easyrecovery/windows", logo: "https://www.ontrack.com/favicon.ico" },
+      { name: "TestDisk", desc: "Free recovery utility for partition restoration and repair.", url: "https://www.cgsecurity.org/wiki/TestDisk", logo: "https://www.cgsecurity.org/favicon.ico", oss: true },
+    ]
+  },
+  {
+    id: "databases",
+    name: "Database Clients",
+    apps: [
+      { name: "Another Redis Desktop", desc: "Fast and stable Redis GUI with cluster and SSH support.", url: "https://github.com/qishibo/AnotherRedisDesktopManager", logo: "https://avatars.githubusercontent.com/u/1100951", oss: true },
+      { name: "Beekeeper Studio", desc: "Modern SQL client for MySQL, Postgres, SQLite and more.", url: "https://www.beekeeperstudio.io/", logo: "https://www.beekeeperstudio.io/img/logo/bk-logo-sm.png", oss: true },
+      { name: "DataFlare", desc: "Lightweight database GUI for SQLite, MySQL and PostgreSQL.", url: "https://dataflare.app/", logo: "https://dataflare.app/favicon.ico", star: true },
+      { name: "DB Browser for SQLite", desc: "Visual tool for creating and editing SQLite databases.", url: "https://sqlitebrowser.org/", logo: "https://sqlitebrowser.org/images/SQLiteBrowser.svg", oss: true },
+      { name: "DBeaver", desc: "Free and open-source universal database management tool.", url: "https://dbeaver.io/", logo: "https://dbeaver.io/wp-content/uploads/2015/09/beaver-head.png", oss: true },
+      { name: "pgAdmin", desc: "Administration and development platform for PostgreSQL.", url: "https://www.pgadmin.org/", logo: "https://www.pgadmin.org/static/COMPILED/static/img/favicon.ico", oss: true },
+    ]
+  },
+  {
+    id: "developer-utilities",
+    name: "Developer Utilities",
+    apps: [
+      { name: "Cacher", desc: "Syncs and organizes code snippets with Gist and IDE plugins.", url: "https://www.cacher.io/", logo: "https://www.cacher.io/images/favicon.png" },
+      { name: "Pieces", desc: "AI to capture, organize and reuse code snippets.", url: "https://pieces.app/", logo: "https://pieces.app/favicon.ico" },
+      { name: "Velocity", desc: "Browses and searches API documentation offline.", url: "https://velocity.silverlakesoftware.com/", logo: "https://velocity.silverlakesoftware.com/favicon.ico" },
+      { name: "Xampp", desc: "Bundles Apache, MariaDB, PHP and Perl for local dev.", url: "https://www.apachefriends.org/index.html", logo: "https://www.apachefriends.org/images/favicon-18f2a68c.ico" },
+    ]
+  },
+  {
+    id: "email",
+    name: "Email",
+    apps: [
+      { name: "Mailspring", desc: "Modern email client built on web technologies.", url: "https://getmailspring.com/", logo: "https://getmailspring.com/images/favicon.ico", star: true, oss: true },
+      { name: "ProtonMail", desc: "Encrypted email service with end-to-end encryption.", url: "https://proton.me/mail", logo: "https://proton.me/favicons/favicon-32x32.png", star: true, oss: true },
+      { name: "Thunderbird", desc: "Feature-rich email client with minimalist design.", url: "https://www.mozilla.org/en-US/thunderbird/", logo: "https://www.thunderbird.net/media/img/thunderbird/favicon.png", oss: true },
+      { name: "Wino Mail", desc: "Modern Windows mail client with integrated calendar.", url: "https://winomail.app", logo: "https://winomail.app/favicon.ico", oss: true },
+      { name: "Mailbird", desc: "IMAP and POP3 email client with multi-language support.", url: "https://www.mailbird.com/", logo: "https://www.mailbird.com/favicon.ico" },
+    ]
+  },
+  {
+    id: "file-management",
+    name: "File Management",
+    apps: [
+      { name: "Everything", desc: "Instant file search by name across your drives.", url: "https://www.voidtools.com/", logo: "https://www.voidtools.com/Everything.png" },
+      { name: "Files", desc: "Modern file manager with tabs and column view.", url: "https://files.community/", logo: "https://files.community/appicons/Release/256x256.png", oss: true },
+      { name: "FileZilla", desc: "FTP, FTPS and SFTP client for file transfer.", url: "https://filezilla-project.org/", logo: "https://filezilla-project.org/images/favicon.ico", oss: true },
+      { name: "FreeFileSync", desc: "File and folder backup with multiple sync modes.", url: "https://www.freefilesync.org/", logo: "https://www.freefilesync.org/favicon.ico" },
+      { name: "One Commander", desc: "Modern file manager with Miller columns layout.", url: "https://onecommander.com/", logo: "https://onecommander.com/favicon.ico" },
+      { name: "Spacedrive", desc: "Cross-platform file manager with cloud integration.", url: "https://www.spacedrive.com/", logo: "https://www.spacedrive.com/favicon.ico", oss: true },
+      { name: "TeraCopy", desc: "Faster file transfers than Windows Explorer.", url: "https://www.codesector.com/teracopy", logo: "https://www.codesector.com/images/teracopy.png" },
+      { name: "WinSCP", desc: "Free open source SFTP, FTP, WebDAV and SCP client.", url: "https://winscp.net/", logo: "https://winscp.net/favicon.ico", oss: true },
+    ]
+  },
+  {
+    id: "game-stores",
+    name: "Games",
+    apps: [
+      { name: "Epic Games", desc: "Digital game storefront for PC and Mac.", url: "https://www.epicgames.com/store/", logo: "https://static-assets-prod.epicgames.com/epic-store/static/favicon.ico" },
+      { name: "GOG", desc: "DRM-free game store with classic and modern titles.", url: "https://www.gog.com/", logo: "https://www.gog.com/assets/images/website_logo_on_dark_bg.svg" },
+      { name: "Godot Engine", desc: "Free and open source game engine with beginner workflow.", url: "https://godotengine.org/", logo: "https://godotengine.org/favicon.ico", oss: true },
+      { name: "Hydra Launcher", desc: "Download, play, track stats and manage games in one.", url: "https://hydralauncher.gg/", logo: "https://hydralauncher.gg/favicon.ico", oss: true },
+      { name: "Itch.io", desc: "Platform for discovering and distributing indie games.", url: "https://itch.io/app/", logo: "https://static.itch.io/images/itchio-textless-black.svg", oss: true },
+      { name: "Playnite", desc: "Open-source library manager unifying all game platforms.", url: "https://playnite.link/", logo: "https://playnite.link/applogo.png", oss: true },
+      { name: "Steam", desc: "Leading digital game distribution platform.", url: "https://store.steampowered.com/", logo: "https://store.steampowered.com/favicon.ico" },
+      { name: "Unity", desc: "Popular game engine with comprehensive learning resources.", url: "https://unity3d.com/", logo: "https://unity.com/favicon.ico" },
+    ]
+  },
+  {
+    id: "graphics",
+    name: "Graphics",
+    apps: [
+      { name: "Aseprite", desc: "Professional pixel art and animation tool.", url: "https://www.aseprite.org/", logo: "https://www.aseprite.org/assets/images/favicon.png", oss: true },
+      { name: "Blender", desc: "Professional 3D creation suite for modeling and animation.", url: "https://www.blender.org/", logo: "https://www.blender.org/favicon.ico", oss: true },
+      { name: "Ente Photos", desc: "Store and share photos with absolute end-to-end privacy.", url: "https://ente.io/", logo: "https://ente.io/images/favicon.ico", oss: true },
+      { name: "Figma", desc: "Collaborative interface design tool in the browser.", url: "https://www.figma.com/", logo: "https://static.figma.com/app/icon/1/favicon.ico", star: true },
+      { name: "GIMP", desc: "Feature-rich open source image editor.", url: "https://www.gimp.org/", logo: "https://www.gimp.org/images/wilber16.png", oss: true },
+      { name: "Inkscape", desc: "Professional vector graphics editor.", url: "https://inkscape.org/en/", logo: "https://inkscape.org/favicon.ico", oss: true },
+      { name: "Krita", desc: "Professional digital painting and illustration program.", url: "https://krita.org/", logo: "https://krita.org/favicon.ico", oss: true },
+      { name: "Oculante", desc: "Lightweight, fast image viewer written in Rust.", url: "https://github.com/woelper/oculante", logo: "https://avatars.githubusercontent.com/u/1385686", star: true, oss: true },
+      { name: "Paint.NET", desc: "Feature-rich image editing tool for Windows.", url: "https://www.getpaint.net/index.html", logo: "https://www.getpaint.net/favicon.ico" },
+    ]
+  },
+  {
+    id: "ides",
+    name: "IDEs",
+    apps: [
+      { name: "Android Studio", desc: "Develops and tests Android applications.", url: "https://developer.android.com/studio/index.html", logo: "https://developer.android.com/images/logos/android.svg", oss: true },
+      { name: "Cursor", desc: "AI-powered code editor with codebase understanding.", url: "https://www.cursor.com/", logo: "https://www.cursor.com/favicon.ico" },
+      { name: "Eclipse", desc: "Extensible IDE supporting plugin-based development.", url: "https://eclipse.org/downloads/", logo: "https://www.eclipse.org/eclipse.org-common/themes/solstice/public/images/logo/eclipse-foundation-white-orange.svg", oss: true },
+      { name: "JetBrains IDEs", desc: "Professional suite: IntelliJ, PyCharm, WebStorm and more.", url: "https://www.jetbrains.com/ides/", logo: "https://resources.jetbrains.com/storage/products/jetbrains/img/meta/preview.png" },
+      { name: "PearAI", desc: "Open source AI code editor with curated AI integrations.", url: "https://trypear.ai/", logo: "https://trypear.ai/favicon.ico", star: true, oss: true },
+      { name: "Visual Studio", desc: "Microsoft IDE for building Windows and cloud applications.", url: "https://www.visualstudio.com/vs/", logo: "https://visualstudio.microsoft.com/wp-content/uploads/2021/10/Product-Icon.svg" },
+      { name: "Visual Studio Code", desc: "Highly customizable editor with vast extension ecosystem.", url: "https://code.visualstudio.com/", logo: "https://code.visualstudio.com/favicon.ico", oss: true },
+      { name: "VSCodium", desc: "VS Code fork without Microsoft telemetry and bloat.", url: "https://vscodium.com/", logo: "https://vscodium.com/img/vscodium.png", star: true, oss: true },
+      { name: "Windsurf", desc: "Agentic IDE with AI flows and deep contextual awareness.", url: "https://codeium.com/windsurf", logo: "https://codeium.com/favicon.ico" },
+      { name: "Zed", desc: "High-performance multiplayer code editor from creators of Atom.", url: "https://zed.dev", logo: "https://zed.dev/favicon-32x32.png", star: true, oss: true },
+    ]
+  },
+  {
+    id: "local-ai",
+    name: "Local AI",
+    apps: [
+      { name: "Jan", desc: "Offline private AI assistant with CPU/GPU support.", url: "https://jan.ai", logo: "https://jan.ai/favicon.ico", oss: true },
+      { name: "LM Studio", desc: "Discover, download, and run local LLMs with nice UI.", url: "https://lmstudio.ai/", logo: "https://lmstudio.ai/favicon.ico" },
+      { name: "Ollama", desc: "Get up and running with large language models locally.", url: "https://ollama.com/", logo: "https://ollama.com/public/ollama.png", oss: true },
+    ]
+  },
+  {
+    id: "networking",
+    name: "Networking",
+    apps: [
+      { name: "Fiddler", desc: "Web debugging proxy to inspect HTTP/HTTPS traffic.", url: "https://www.telerik.com/fiddler", logo: "https://www.telerik.com/favicon.ico" },
+      { name: "Nmap", desc: "Free open-source network scanner for host and service discovery.", url: "https://nmap.org/", logo: "https://nmap.org/images/nmap-logo-256x256.png", oss: true },
+      { name: "Sniffnet", desc: "Network monitor to easily track your internet traffic.", url: "https://sniffnet.net/", logo: "https://sniffnet.net/icon.png", oss: true },
+      { name: "Wireshark", desc: "The world's leading network protocol analyzer.", url: "https://www.wireshark.org/", logo: "https://www.wireshark.org/assets/icons/wireshark-fin.svg", oss: true },
+    ]
+  },
+  {
+    id: "note-taking",
+    name: "Note-taking",
+    apps: [
+      { name: "Anytype", desc: "Privacy-focused offline Notion alternative with P2P sync.", url: "https://anytype.io", logo: "https://anytype.io/favicon.ico", oss: true },
+      { name: "Joplin", desc: "Open-source notes with Markdown, sync and encryption.", url: "https://joplinapp.org/", logo: "https://joplinapp.org/images/Icon512.png", oss: true },
+      { name: "Logseq", desc: "Privacy-first knowledge base on local plain-text files.", url: "https://logseq.com/", logo: "https://logseq.com/img/logo.png", oss: true },
+      { name: "Notion", desc: "All-in-one workspace for notes, docs and project management.", url: "https://www.notion.so/", logo: "https://www.notion.so/images/logo-ios.png" },
+      { name: "Obsidian", desc: "Powerful knowledge base on top of local Markdown files.", url: "https://obsidian.md/", logo: "https://obsidian.md/favicon.ico" },
+      { name: "Standard Notes", desc: "Free, secure note-taking with end-to-end encryption.", url: "https://standardnotes.com/", logo: "https://standardnotes.com/assets/icon.png" },
+    ]
+  },
+  {
+    id: "office-suites",
+    name: "Office Suites",
+    apps: [
+      { name: "LibreOffice", desc: "Full-featured office suite with broad file format support.", url: "https://www.libreoffice.org/", logo: "https://www.libreoffice.org/themes/libreofficenew/img/favicon.ico", star: true, oss: true },
+      { name: "Microsoft Office", desc: "Real-time collaboration and cloud integration across apps.", url: "https://www.office.com", logo: "https://www.microsoft.com/favicon.ico" },
+      { name: "OnlyOffice", desc: "Document co-editing with version control.", url: "https://www.onlyoffice.com/", logo: "https://www.onlyoffice.com/favicon.ico", oss: true },
+      { name: "PDFGear", desc: "Full-featured free PDF editor with annotation and management.", url: "https://www.pdfgear.com/", logo: "https://www.pdfgear.com/favicon.ico" },
+      { name: "Sumatra PDF", desc: "Opens documents instantly with minimal memory usage.", url: "https://www.sumatrapdfreader.org/free-pdf-reader.html", logo: "https://www.sumatrapdfreader.org/img/SumatraPDF-icon.png", oss: true },
+      { name: "WPS Office", desc: "Mobile-desktop sync with built-in PDF tools.", url: "https://www.wps.com/office-free", logo: "https://www.wps.com/favicon.ico" },
+    ]
+  },
+  {
+    id: "password-managers",
+    name: "Password Managers",
+    apps: [
+      { name: "1Password", desc: "Premium password manager with secure vault and teams.", url: "https://1password.com/", logo: "https://1password.com/img/logo-v1.svg", paid: true },
+      { name: "Bitwarden", desc: "Open-source password manager with encrypted vault.", url: "https://bitwarden.com/", logo: "https://bitwarden.com/favicon.ico", oss: true },
+      { name: "Padloc", desc: "End-to-end encrypted open-source password manager.", url: "https://padloc.app/", logo: "https://padloc.app/favicon.ico", oss: true },
+      { name: "Proton Pass", desc: "Zero-knowledge encrypted password manager.", url: "https://proton.me/pass", logo: "https://proton.me/favicons/favicon-32x32.png", star: true },
+      { name: "Vaultwarden", desc: "Lightweight self-hosted Bitwarden server implementation.", url: "https://github.com/dani-garcia/vaultwarden", logo: "https://avatars.githubusercontent.com/u/71365611", oss: true },
+    ]
+  },
+  {
+    id: "productivity",
+    name: "Productivity",
+    apps: [
+      { name: "AutoHotkey", desc: "Automation scripting language for Windows.", url: "https://autohotkey.com/", logo: "https://www.autohotkey.com/favicon.ico", oss: true },
+      { name: "Cold Turkey", desc: "Website blocker with strict enforcement mechanisms.", url: "https://getcoldturkey.com", logo: "https://getcoldturkey.com/img/favicon.png" },
+      { name: "f.lux", desc: "Automatic screen color temperature adjustment.", url: "https://stereopsis.com/flux/", logo: "https://justgetflux.com/favicon.ico" },
+      { name: "File Juggler", desc: "Automated file organization with smart actions.", url: "https://www.filejuggler.com/", logo: "https://www.filejuggler.com/favicon.ico" },
+      { name: "Keywiz", desc: "Real-time keystroke visualization tool for presentations.", url: "https://mularahul.github.io/keyviz/", logo: "https://avatars.githubusercontent.com/u/45979143", oss: true },
+      { name: "Ninite", desc: "Streamlined software installation utility, no bloatware.", url: "https://ninite.com/", logo: "https://ninite.com/favicon.ico" },
+      { name: "PowerToys", desc: "Microsoft's power user toolkit with dozens of utilities.", url: "https://learn.microsoft.com/en-us/windows/powertoys/install", logo: "https://avatars.githubusercontent.com/u/6154722", oss: true },
+      { name: "Timelens", desc: "Cross-platform time tracking software.", url: "https://timlens.wireway.ch", logo: "https://avatars.githubusercontent.com/u/70103896", oss: true },
+      { name: "TypeWhisper", desc: "Local speech-to-text transcription with global hotkey.", url: "https://www.typewhisper.com", logo: "https://www.typewhisper.com/favicon.ico", oss: true },
+    ]
+  },
+  {
+    id: "proxy-vpn",
+    name: "Proxy & VPN",
+    apps: [
+      { name: "Cloudflare WARP", desc: "Fast, free VPN and DNS by Cloudflare.", url: "https://1.1.1.1", logo: "https://www.cloudflare.com/favicon.ico" },
+      { name: "ProtonVPN", desc: "High-speed Swiss VPN that safeguards your privacy.", url: "https://protonvpn.com/", logo: "https://protonvpn.com/favicon.ico", star: true },
+      { name: "Tailscale", desc: "Zero config VPN for building secure mesh networks.", url: "https://tailscale.com/", logo: "https://tailscale.com/files/dist/tailscale-icon.svg", star: true },
+      { name: "Windscribe", desc: "VPN service that's fast, reliable and effective.", url: "https://windscribe.com/", logo: "https://windscribe.com/favicon.ico" },
+      { name: "WireGuard", desc: "Fast, modern, and secure VPN tunnel protocol.", url: "https://www.wireguard.com/", logo: "https://www.wireguard.com/img/wireguard.svg", oss: true },
+    ]
+  },
+  {
+    id: "remote-access",
+    name: "Remote Access",
+    apps: [
+      { name: "AnyDesk", desc: "Free and lightweight remote access solution.", url: "https://anydesk.com/", logo: "https://anydesk.com/favicon.ico" },
+      { name: "Moonlight", desc: "Open-source GameStream client for low-latency streaming.", url: "https://github.com/moonlight-stream/moonlight-qt", logo: "https://moonlight-stream.org/images/icon.png", star: true, oss: true },
+      { name: "Parsec", desc: "High-performance remote desktop with 4K at 60fps.", url: "https://parsec.app/", logo: "https://parsec.app/favicon.ico", star: true },
+      { name: "RustDesk", desc: "Open-source remote desktop focused on security.", url: "https://rustdesk.com/", logo: "https://rustdesk.com/favicon.ico", oss: true },
+      { name: "Steam Link", desc: "Play your Steam games across devices.", url: "https://store.steampowered.com/app/353380/Steam_Link/", logo: "https://store.steampowered.com/favicon.ico" },
+      { name: "Sunshine", desc: "Self-hosted game streaming server for use with Moonlight.", url: "https://github.com/LizardByte/Sunshine", logo: "https://avatars.githubusercontent.com/u/49537264", star: true, oss: true },
+      { name: "TeamViewer", desc: "Popular remote control with desktop sharing and file transfer.", url: "https://www.teamviewer.com/en", logo: "https://www.teamviewer.com/favicon.ico" },
+    ]
+  },
+  {
+    id: "screen-capture",
+    name: "Screen Capture",
+    apps: [
+      { name: "Flameshot", desc: "Customizable screenshot tool with built-in editor.", url: "https://flameshot.org/", logo: "https://flameshot.org/img/flameshot-logo.svg", oss: true },
+      { name: "Greenshot", desc: "Lightweight screenshot tool with annotation features.", url: "https://getgreenshot.org/", logo: "https://getgreenshot.org/wp-content/themes/greenshot/favicon.ico", oss: true },
+      { name: "LICEcap", desc: "Animated GIF screen capture tool.", url: "https://www.cockos.com/licecap/", logo: "https://www.cockos.com/favicon.ico" },
+      { name: "OBS Studio", desc: "Free and open source video recording and live streaming.", url: "https://obsproject.com/", logo: "https://obsproject.com/assets/images/new_icon_small-r.png", star: true, oss: true },
+      { name: "ShareX", desc: "Powerful screenshot and screen recording tool.", url: "https://getsharex.com/", logo: "https://getsharex.com/img/ShareX_Logo.png", star: true, oss: true },
+    ]
+  },
+  {
+    id: "security",
+    name: "Security",
+    apps: [
+      { name: "Bitwarden", desc: "Open-source password manager with encrypted vault.", url: "https://bitwarden.com/", logo: "https://bitwarden.com/favicon.ico", oss: true },
+      { name: "Cryptomator", desc: "Client-side encryption for your cloud files.", url: "https://cryptomator.org/", logo: "https://cryptomator.org/favicon.ico", oss: true },
+      { name: "Ente Auth", desc: "Open source 2FA authenticator with E2EE backups.", url: "https://ente.io/auth/", logo: "https://ente.io/images/favicon.ico", oss: true },
+      { name: "GlassWire", desc: "Network security monitoring and visualization tool.", url: "https://www.glasswire.com/", logo: "https://www.glasswire.com/favicon.ico" },
+      { name: "Malwarebytes", desc: "Advanced threat protection and malware removal.", url: "https://www.malwarebytes.org/", logo: "https://www.malwarebytes.com/favicon.ico" },
+      { name: "Tor Project", desc: "Anonymous communication network client.", url: "https://www.torproject.org/", logo: "https://www.torproject.org/static/images/favicon/favicon-32x32.png", oss: true },
+      { name: "VeraCrypt", desc: "Disk encryption software for multiple platforms.", url: "https://www.veracrypt.fr/en/Home.html", logo: "https://www.veracrypt.fr/favicon.ico", oss: true },
+    ]
+  },
+  {
+    id: "system-utilities",
+    name: "System Utilities",
+    apps: [
+      { name: "balenaEtcher", desc: "Flash OS images to SD cards and USB drives safely.", url: "https://etcher.balena.io/", logo: "https://etcher.balena.io/favicon.ico", oss: true },
+      { name: "BleachBit", desc: "Free and open-source system cleaner to free up disk space.", url: "https://www.bleachbit.org/", logo: "https://www.bleachbit.org/sites/default/files/bleachbit.png", oss: true },
+      { name: "CPU-Z", desc: "CPU monitoring and hardware information tool.", url: "https://www.cpuid.com/softwares/cpu-z.html", logo: "https://www.cpuid.com/favicon.ico" },
+      { name: "CrystalDiskInfo", desc: "Utility for monitoring S.M.A.R.T. data and disk health.", url: "https://crystalmark.info/en/software/crystaldiskinfo/", logo: "https://crystalmark.info/img/favicon.png", oss: true },
+      { name: "Fan Control", desc: "Highly focused and customizable fan controlling software.", url: "https://getfancontrol.com/", logo: "https://getfancontrol.com/favicon.ico", star: true },
+      { name: "HWiNFO", desc: "Comprehensive hardware analysis, monitoring and reporting.", url: "https://www.hwinfo.com/", logo: "https://www.hwinfo.com/img/hwi_logo.png" },
+      { name: "LocalSend", desc: "Cross-platform secure file sharing over local network.", url: "https://localsend.org/", logo: "https://localsend.org/img/logo-512.png", oss: true },
+      { name: "neohtop", desc: "Modern system monitor built with Svelte and Rust.", url: "https://github.com/Abdenasser/neohtop", logo: "https://avatars.githubusercontent.com/u/2356836", star: true, oss: true },
+      { name: "PowerToys", desc: "Microsoft power user toolkit with dozens of utilities.", url: "https://learn.microsoft.com/en-us/windows/powertoys/install", logo: "https://avatars.githubusercontent.com/u/6154722", oss: true },
+      { name: "Process Hacker", desc: "Comprehensive system monitoring and management tool.", url: "https://processhacker.sourceforge.net/", logo: "https://processhacker.sourceforge.net/img/logo.png", oss: true },
+      { name: "qBittorrent", desc: "Free and reliable P2P BitTorrent client.", url: "https://qbittorrent.org/", logo: "https://www.qbittorrent.org/favicon.ico", oss: true },
+      { name: "Rufus", desc: "Bootable USB creation utility, fast and lightweight.", url: "https://rufus.ie/", logo: "https://rufus.ie/pics/favicon.png", oss: true },
+      { name: "SyncThing", desc: "Peer-to-peer file synchronization tool.", url: "https://syncthing.net/", logo: "https://syncthing.net/img/logo-horizontal.svg", oss: true },
+      { name: "Twinkle Tray", desc: "Manage brightness levels of multiple monitors.", url: "https://twinkletray.com/", logo: "https://twinkletray.com/favicon.ico", oss: true },
+      { name: "WizTree", desc: "Extremely fast disk space analyzer for Windows.", url: "https://wiztree.en.lo4d.com/", logo: "https://antibody-software.com/images/wiztree-logo.jpg" },
+    ]
+  },
+  {
+    id: "terminal",
+    name: "Terminal",
+    apps: [
+      { name: "Alacritty", desc: "Cross-platform, GPU-accelerated terminal emulator.", url: "https://github.com/jwilm/alacritty", logo: "https://raw.githubusercontent.com/alacritty/alacritty/master/extra/logo/compat/alacritty-term%2Bscanlines.svg", oss: true },
+      { name: "Cmder", desc: "Console emulator with clink shell integration.", url: "https://cmder.app", logo: "https://cmder.app/img/cmder_logo_icon-1.png", oss: true },
+      { name: "MobaXterm", desc: "Enhanced terminal with X server and SSH client.", url: "https://mobaxterm.mobatek.net/", logo: "https://mobaxterm.mobatek.net/img/moba/xterm/MobaXterm_logo.png" },
+      { name: "PuTTY", desc: "SSH and telnet client, a Windows classic.", url: "https://www.chiark.greenend.org.uk/~sgtatham/putty/download.html", logo: "https://www.putty.org/favicon.ico" },
+      { name: "Warp", desc: "AI-powered terminal with IDE-like features and collaboration.", url: "https://www.warp.dev/", logo: "https://www.warp.dev/favicon.ico" },
+      { name: "WezTerm", desc: "GPU-accelerated terminal emulator and multiplexer.", url: "https://wezfurlong.org/wezterm/", logo: "https://wezfurlong.org/wezterm/favicon.svg", oss: true },
+      { name: "Windows Terminal", desc: "Official Microsoft terminal for PowerShell, CMD and WSL.", url: "https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701", logo: "https://avatars.githubusercontent.com/u/6154722", oss: true },
+    ]
+  },
+  {
+    id: "text-editors",
+    name: "Text Editors",
+    apps: [
+      { name: "LazyVim", desc: "Customizable Neovim configuration framework.", url: "https://www.lazyvim.org/", logo: "https://www.lazyvim.org/logo.webp", oss: true },
+      { name: "Neovim", desc: "Modern, extensible terminal-based text editor.", url: "https://neovim.io/", logo: "https://neovim.io/favicon.ico", oss: true },
+      { name: "Notepad++", desc: "Feature-rich source code editor for Windows.", url: "https://notepad-plus-plus.org/", logo: "https://notepad-plus-plus.org/favicon.ico", oss: true },
+      { name: "Sublime Text", desc: "Advanced text editor with extensive plugin ecosystem.", url: "https://www.sublimetext.com/3", logo: "https://www.sublimetext.com/favicon.ico" },
+    ]
+  },
+  {
+    id: "version-control",
+    name: "Version Control",
+    apps: [
+      { name: "Fork", desc: "Fast and friendly Git client for Windows and Mac.", url: "https://git-fork.com/", logo: "https://git-fork.com/images/icon.png" },
+      { name: "Git Extensions", desc: "Powerful and user-friendly Git GUI.", url: "https://gitextensions.github.io/", logo: "https://avatars.githubusercontent.com/u/6529082", oss: true },
+      { name: "GitHub Desktop", desc: "Electron-based official GitHub client.", url: "https://desktop.github.com/", logo: "https://desktop.github.com/images/desktop-icon.svg", oss: true },
+      { name: "GitKraken", desc: "Cross-platform Git client with intuitive interface.", url: "https://www.gitkraken.com/", logo: "https://www.gitkraken.com/favicon.ico" },
+      { name: "Meld", desc: "Visual diff and merge tool for comparing files.", url: "https://meldmerge.org/", logo: "https://meldmerge.org/images/meld-logo.png", oss: true },
+      { name: "SourceTree", desc: "Free Git and Mercurial client from Atlassian.", url: "https://www.sourcetreeapp.com/", logo: "https://www.sourcetreeapp.com/favicon.ico" },
+      { name: "TortoiseGit", desc: "Git client with full Windows shell integration.", url: "https://tortoisegit.org/", logo: "https://tortoisegit.org/favicon.ico", oss: true },
+      { name: "Tower", desc: "Professional Git client with advanced features.", url: "https://www.git-tower.com/windows", logo: "https://www.git-tower.com/favicon.ico" },
+    ]
+  },
+  {
+    id: "video-utilities",
+    name: "Video Utilities",
+    apps: [
+      { name: "DaVinci Resolve", desc: "Complete video suite with color grading and VFX tools.", url: "https://www.blackmagicdesign.com/products/davinciresolve/", logo: "https://www.blackmagicdesign.com/favicon.ico", star: true },
+      { name: "HandBrake", desc: "Converts videos between formats with compression options.", url: "https://handbrake.fr/", logo: "https://handbrake.fr/img/logo.png", oss: true },
+      { name: "Kdenlive", desc: "Video editor focused on transitions and effects.", url: "https://kdenlive.org/en/download/", logo: "https://kdenlive.org/wp-content/uploads/2022/11/kdenlive.png", oss: true },
+      { name: "mpv", desc: "Script-based media player with extensive keyboard controls.", url: "https://mpv.io/", logo: "https://mpv.io/favicon.ico", oss: true },
+      { name: "VLC", desc: "Free and open source cross-platform multimedia player.", url: "https://www.videolan.org/vlc/index.html", logo: "https://www.videolan.org/media/vlc-ios-icon.png", oss: true },
+    ]
+  },
+  {
+    id: "virtualization",
+    name: "Virtualization",
+    apps: [
+      { name: "Docker Desktop", desc: "Containers and local Kubernetes on Windows.", url: "https://hub.docker.com/editions/community/docker-ce-desktop-windows", logo: "https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" },
+      { name: "Vagrant", desc: "Builds reproducible portable development environments.", url: "https://www.vagrantup.com/downloads.html", logo: "https://www.vagrantup.com/favicon.ico", oss: true },
+      { name: "VirtualBox", desc: "Cross-platform virtualization with snapshots and USB.", url: "https://www.virtualbox.org/wiki/Downloads", logo: "https://www.virtualbox.org/favicon.ico", oss: true },
+      { name: "VMware Workstation Player", desc: "Run multiple operating systems as virtual machines.", url: "https://www.vmware.com/products/workstation-player.html", logo: "https://www.vmware.com/favicon.ico" },
+    ]
+  },
+  {
+    id: "window-management",
+    name: "Window Management",
+    apps: [
+      { name: "AltSnap", desc: "Move and resize windows by holding Alt key.", url: "https://github.com/RamonUnch/AltSnap", logo: "https://avatars.githubusercontent.com/u/39523672", oss: true },
+      { name: "Bug.n", desc: "Tiling window manager for Windows.", url: "https://github.com/fuhsjr00/bug.n", logo: "https://avatars.githubusercontent.com/u/5756849", oss: true },
+      { name: "GlazeWM", desc: "Tiling window manager inspired by i3 and Komorebi.", url: "https://github.com/glzr-io/glazewm", logo: "https://avatars.githubusercontent.com/u/109586854", oss: true },
+      { name: "komorebi", desc: "Tiling window manager for Windows with rich configuration.", url: "https://github.com/LGUG2Z/komorebi", logo: "https://avatars.githubusercontent.com/u/13164844", oss: true },
+      { name: "Microsoft PowerToys FancyZones", desc: "Create custom window layouts with snap assistance.", url: "https://learn.microsoft.com/en-us/windows/powertoys/fancyzones", logo: "https://avatars.githubusercontent.com/u/6154722", oss: true },
+    ]
+  },
+];
+
+// Build category nav
+const catNav = document.getElementById('catNav');
+data.forEach(cat => {
+  const a = document.createElement('a');
+  a.className = 'cat-pill';
+  a.href = '#' + cat.id;
+  a.textContent = cat.name;
+  catNav.appendChild(a);
+});
+
+// Render apps
+function getLogo(app) {
+  return `<img class="app-logo" src="${app.logo}" alt="${app.name} logo"
+    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="app-logo-fallback" style="display:none">${app.name.charAt(0)}</div>`;
+}
+
+function getTags(app) {
+  let t = '';
+  if (app.star) t += '<span class="tag tag-star" title="Personal Favorite">⭐</span>';
+  if (app.oss)  t += '<span class="tag tag-oss"  title="Open Source">🟢</span>';
+  if (app.paid) t += '<span class="tag tag-paid" title="Paid">💰</span>';
+  return t;
+}
+
+const main = document.getElementById('main');
+data.forEach(cat => {
+  const section = document.createElement('section');
+  section.className = 'category';
+  section.id = cat.id;
+  section.dataset.cat = cat.name.toLowerCase();
+
+  const header = document.createElement('div');
+  header.className = 'cat-header';
+  header.innerHTML = `<h2 class="cat-title">${cat.name}</h2><span class="cat-count">${cat.apps.length} apps</span>`;
+  section.appendChild(header);
+
+  const grid = document.createElement('div');
+  grid.className = 'app-grid';
+
+  cat.apps.forEach(app => {
+    const card = document.createElement('a');
+    card.className = 'app-card';
+    card.href = app.url;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+    card.dataset.name = app.name.toLowerCase();
+    card.dataset.desc = app.desc.toLowerCase();
+    card.innerHTML = `
+      ${getLogo(app)}
+      <div class="app-info">
+        <div class="app-name-row">
+          <span class="app-name">${app.name}</span>
+          ${getTags(app)}
+        </div>
+        <div class="app-desc">${app.desc}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  section.appendChild(grid);
+  main.appendChild(section);
+});
+
+// Search
+const searchEl = document.getElementById('search');
+const noResult = document.getElementById('noResult');
+
+searchEl.addEventListener('input', () => {
+  const q = searchEl.value.toLowerCase().trim();
+  let anyVisible = false;
+
+  document.querySelectorAll('.category').forEach(section => {
+    let catVisible = false;
+    section.querySelectorAll('.app-card').forEach(card => {
+      const match = !q || card.dataset.name.includes(q) || card.dataset.desc.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) catVisible = true;
+    });
+    section.style.display = catVisible ? '' : 'none';
+    if (catVisible) anyVisible = true;
+  });
+
+  noResult.style.display = anyVisible ? 'none' : 'block';
+});
+</script>
+</body>
+</html>
